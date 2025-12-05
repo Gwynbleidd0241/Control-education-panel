@@ -1,0 +1,66 @@
+
+services:
+  db:
+    image: postgres:16
+    container_name: edu-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  migrate:
+    image: migrate/migrate
+    container_name: edu-migrate
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend/migrations:/migrations
+    command:
+      [
+        "-path=/migrations",
+        "-database=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?sslmode=disable",
+        "up"
+      ]
+    restart: "on-failure"
+
+  back:
+    build: ./backend
+    container_name: edu-back
+    env_file:
+      - ./backend/.env
+    environment:
+      # подстрахуемся, если чего-то нет в back/.env
+      LOG_LEVEL: ${BACK_LOG_LEVEL}
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_started
+    ports:
+      - "${BACK_PORT}:8081"
+
+  front:
+    build: ./front
+    container_name: edu-front
+    env_file:
+      - ./front/.env
+    depends_on:
+      - back
+    ports:
+      - "3000:3000"
+    # если хочется hot-reload можно пробросить исходники:
+    # volumes:
+    #   - ./front:/app
+
+volumes:
+  db_data:

@@ -1,0 +1,175 @@
+:root {
+    --primary: #4361ee;
+    --primary-light: #8093f1;
+    --secondary: #4cc9f0;
+    --success: #06d6a0;
+    --danger: #ef476f;
+    --dark: #2b2d42;
+    --light: #f8f9fa;
+    --gray: #adb5bd;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background-color: var(--light);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.logout-button {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    background: var(--light);
+    border: 2px solid var(--primary);
+    border-radius: 50px;
+    color: var(--primary);
+    font-weight: 600;
+    transition: var(--transition);
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.logout-button:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.logout-button:active {
+    transform: translateY(0);
+}
+
+.logout-button svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    transition: var(--transition);
+}
+
+.logout-button:hover svg {
+    stroke: white;
+}
+
+.logout-button span {
+    transition: opacity 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .logout-button {
+        top: 1.2rem;
+        right: 1.2rem;
+        padding: 0.6rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+    }
+
+    .logout-button span {
+        display: none;
+    }
+
+    .logout-button svg {
+        margin-right: 0;
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logout-button {
+        top: 0.8rem;
+        right: 0.8rem;
+        width: 36px;
+        height: 36px;
+        padding: 0.5rem;
+    }
+
+    .logout-button svg {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+}
+
+.btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn.primary {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+}
+
+.btn.primary:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(67, 97, 238, 0.35);
+}
+
+.btn.primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(67, 97, 238, 0.25);
+}
+
+.btn.full-width {
+    width: 100%;
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .btn {
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .btn.primary {
+        box-shadow: 0 3px 8px rgba(67, 97, 238, 0.2);
+    }
+}
+
+@media (max-width: 1200px) {
+    .container {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+}

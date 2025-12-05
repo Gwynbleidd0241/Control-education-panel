@@ -1,0 +1,215 @@
+.courses-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.page-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+    padding: 0 0.5rem;
+    flex-wrap: wrap;
+}
+
+.page-header h1 {
+    font-size: 1.8rem;
+    color: var(--dark);
+    margin: 0;
+}
+
+.actions-group {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.btn {
+    transition: var(--transition);
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn.primary {
+    background: var(--primary);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    border: 2px solid transparent;
+}
+
+.btn.secondary {
+    background: var(--light);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+}
+
+.course-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-3px);
+}
+
+.course-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.course-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 0;
+    flex: 1;
+}
+
+.course-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-left: 1rem;
+}
+
+.course-description {
+    color: var(--dark);
+    opacity: 0.9;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+.course-actions {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.new-course-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.new-course-btn:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 480px) {
+    .new-course-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .page-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    .actions-group {
+        flex-direction: row;
+        width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .courses-page {
+        padding: 1.5rem 0.5rem;
+    }
+
+    .course-card {
+        padding: 1.2rem;
+    }
+
+    .course-title {
+        font-size: 1.1rem;
+    }
+
+    .course-price {
+        font-size: 1.1rem;
+    }
+
+    .page-header {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+
+    .page-header h1 {
+        font-size: 1.4rem;
+        width: 100%;
+        text-align: left;
+    }
+
+    .actions-group {
+        flex-direction: row; /* чтобы были в одну линию */
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .btn.primary,
+    .btn.secondary {
+        flex: 1 1 48%; /* по 48% ширины, чтобы влезали в одну строку */
+        font-size: 0.85rem;
+        padding: 0.5rem 0.6rem;
+        min-width: 120px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 360px) {
+    .course-card-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .course-price {
+        margin-left: 0;
+    }
+}
