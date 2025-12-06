@@ -7,7 +7,7 @@ interface Props {
 }
 
 const StudentTableRow: React.FC<Props> = ({ student }) => {
-    const course = student.course; // может быть undefined/null
+    const course = student.course;
 
     return (
         <tr>

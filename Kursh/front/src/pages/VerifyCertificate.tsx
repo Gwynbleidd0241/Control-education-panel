@@ -63,7 +63,8 @@ const VerifyCertificate: React.FC = () => {
                                     <strong>Курс:</strong> {result.courseTitle}
                                 </p>
                                 <p>
-                                    <strong>Статус:</strong> {result.status}</p>
+                                    <strong>Дата выдачи:</strong> {result.issuedAt}
+                                </p>
                             </div>
                         ) : (
                             <p className="empty-state">

@@ -1,23 +1,67 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchStudents } from '../services/studentService';
-import { Student } from '../types';
+import { fetchCourses } from '../services/courseService';
+import { Student, Course } from '../types';
 import Loader from '../components/Loader';
 import StudentTableRow from '../components/StudentTableRow';
 import { renderLoadByLevel } from '../utils/performanceHelpers';
-import { useMediaQuery } from 'react-responsive';
+
+const useIsMobile = (query = '(max-width: 767px)') => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        if (typeof window === 'undefined' || !window.matchMedia) return;
+
+        const mediaQuery = window.matchMedia(query);
+        const onChange = (e: MediaQueryListEvent | MediaQueryList) => {
+            setIsMobile('matches' in e ? e.matches : (e as MediaQueryList).matches);
+        };
+
+        onChange(mediaQuery);
+        mediaQuery.addEventListener?.('change', onChange);
+        mediaQuery.addListener?.(onChange);
+
+        return () => {
+            mediaQuery.removeEventListener?.('change', onChange);
+            mediaQuery.removeListener?.(onChange);
+        };
+    }, [query]);
+
+    return isMobile;
+};
 
 const Students = () => {
     const [students, setStudents] = useState<Student[]>([]);
+    const [courses, setCourses] = useState<Record<string, Course>>({});
     const [loading, setLoading] = useState(true);
 
-    const isMobile = useMediaQuery({ maxWidth: 767 });
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         const loadData = async () => {
             try {
-                const data = await fetchStudents();
-                setStudents(data);
+                const [studentsData, coursesData] = await Promise.all([
+                    fetchStudents(),
+                    fetchCourses().catch(() => []),
+                ]);
+
+                const coursesSafe: Course[] = Array.isArray(coursesData) ? coursesData : [];
+                const coursesMap = coursesSafe.reduce<Record<string, Course>>((acc, course) => {
+                    acc[course.id] = course;
+                    return acc;
+                }, {} as Record<string, Course>);
+
+                const enriched = studentsData.map((student) => {
+                    const course =
+                        student.course ??
+                        (student.courseId ? coursesMap[student.courseId] : null);
+
+                    return { ...student, course };
+                });
+
+                setCourses(coursesMap);
+                setStudents(enriched);
             } catch (error) {
                 console.error('Ошибка загрузки студентов:', error);
             } finally {
@@ -60,23 +104,25 @@ const Students = () => {
 
             {isMobile && (
                 <div className="students-card-list">
-                    {students.map(student => (
+                    {students.map(student => {
+                        const course = student.course ?? (student.courseId ? courses[student.courseId] : null);
+                        return (
                         <div key={student.id} className="student-card">
                             <h3>{student.fullName}</h3>
                             <p><strong>Email:</strong> {student.email}</p>
                             <p>
                                 <strong>Курс:</strong>{' '}
-                                {student.course?.title ?? 'Без курса'}
+                                {course?.title ?? 'Без курса'}
                             </p>
                             <p>
                                 <strong>Нагрузка:</strong>{' '}
-                                {student.course
-                                    ? renderLoadByLevel(student.course.level)
+                                {course
+                                    ? renderLoadByLevel(course.level)
                                     : '—'}
                             </p>
                             <Link to={`/students/${student.id}`}>Подробнее</Link>
                         </div>
-                    ))}
+                    );})}
                 </div>
             )}
         </div>

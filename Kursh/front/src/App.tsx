@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Loader from './components/Loader';
@@ -13,17 +12,14 @@ const CourseForm = lazy(() => import('./pages/CourseForm'));
 const Students = lazy(() => import('./pages/Students'));
 const StudentDetails = lazy(() => import('./pages/StudentDetails'));
 const Certificates = lazy(() => import('./pages/Certificates'));
-const CertificateTemplates = lazy(() => import('./pages/CertificateTemplates'));
+const CertificateView = lazy(() => import('./pages/CertificateView'));
 const VerifyCertificate = lazy(() => import('./pages/VerifyCertificate'));
 
 const App: React.FC = () => (
     <Router>
         <Suspense fallback={<Loader />}>
             <Routes>
-                {/* публичный маршрут */}
                 <Route path="/login" element={<Login />} />
-
-                {/* защищённые маршруты */}
                 <Route element={<ProtectedRoute />}>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/courses" element={<Courses />} />
@@ -35,17 +31,13 @@ const App: React.FC = () => (
                     <Route path="/students/:id" element={<StudentDetails />} />
 
                     <Route path="/certificates" element={<Certificates />} />
-                    <Route
-                        path="/certificate-templates"
-                        element={<CertificateTemplates />}
-                    />
+                    <Route path="/certificates/:id" element={<CertificateView />} />
                     <Route
                         path="/verify-certificate"
                         element={<VerifyCertificate />}
                     />
                 </Route>
 
-                {/* fallback */}
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </Suspense>

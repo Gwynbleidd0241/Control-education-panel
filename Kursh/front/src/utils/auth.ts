@@ -1,4 +1,3 @@
-// src/utils/auth.ts
 const AUTH_KEY = 'authenticated';
 
 export function login(username: string, password: string): boolean {

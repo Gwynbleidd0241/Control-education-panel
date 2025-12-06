@@ -1,4 +1,3 @@
-// src/utils/performanceHelpers.tsx
 export function renderLoadByLevel(level: string): string {
     switch (level) {
         case 'Начальный':

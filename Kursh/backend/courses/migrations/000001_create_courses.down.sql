@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS courses;
+DROP SEQUENCE IF EXISTS courses_id_seq;

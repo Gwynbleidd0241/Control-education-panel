@@ -1,12 +1,12 @@
-// src/services/api.ts
-
 const API_BASE =
-    process.env.REACT_APP_API_BASE || 'http://localhost:8081/api';
+    process.env.REACT_APP_API_BASE
+    || 'http://195.133.20.34/api'
+    || `${window.location.origin}/api`;
 
 async function request<T>(
     path: string,
     options: RequestInit = {},
-): Promise<T> {
+): Promise<T | null> {
     const res = await fetch(`${API_BASE}${path}`, {
         headers: {
             'Content-Type': 'application/json',
@@ -22,8 +22,6 @@ async function request<T>(
     }
 
     if (res.status === 204) {
-        // No Content
-        // @ts-expect-error
         return null;
     }
 

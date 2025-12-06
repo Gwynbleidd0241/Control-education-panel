@@ -5,6 +5,7 @@ export interface Student {
     fullName: string;
     email: string;
     age: number;
+    courseId?: string | null;
     course?: Course | null;
     performance: 'учиться легко' | 'учиться средне' | 'учиться тяжело';
     photoUrl: string;

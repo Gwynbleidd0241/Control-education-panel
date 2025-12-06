@@ -1,8 +1,0 @@
-ALTER TABLE students
-DROP COLUMN IF EXISTS progress,
-    DROP COLUMN IF EXISTS study_format,
-    DROP COLUMN IF EXISTS phone,
-    DROP COLUMN IF EXISTS city,
-    DROP COLUMN IF EXISTS photo_url,
-    DROP COLUMN IF EXISTS performance,
-    DROP COLUMN IF EXISTS age;

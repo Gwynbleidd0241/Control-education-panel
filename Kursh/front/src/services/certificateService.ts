@@ -1,32 +1,42 @@
-// src/services/certificateService.ts
 import { api } from './api';
-import type { Certificate, CertificateTemplate } from '../types';
+import type { Certificate } from '../types';
 
-// все сертификаты
 export async function fetchCertificates(): Promise<Certificate[]> {
-    return api.get<Certificate[]>('/certificates');
+    const res = await api.get<Certificate[]>('/certificates');
+    return res ?? [];
 }
 
-// все шаблоны сертификатов
-export async function fetchCertificateTemplates(): Promise<CertificateTemplate[]> {
-    return api.get<CertificateTemplate[]>('/certificate-templates');
+export async function fetchCertificateById(id: string): Promise<Certificate | null> {
+    try {
+        return await api.get<Certificate>(`/certificates/${id}`);
+    } catch (err) {
+        try {
+            const list = await fetchCertificates();
+            return list.find((c) => c.id === id) ?? null;
+        } catch {
+            return null;
+        }
+    }
 }
 
-// проверка сертификата по коду
 export async function verifyCertificateByCode(code: string): Promise<Certificate | null> {
     const all = await fetchCertificates();
     const found = all.find((c) => c.code.toLowerCase() === code.toLowerCase());
     return found ?? null;
 }
 
-// выдача сертификата
-export async function issueCertificate(
-    payload: Omit<Certificate, 'id'>,
-): Promise<Certificate> {
-    return api.post<Certificate>('/certificates', payload);
+export interface IssueCertificatePayload {
+    studentId: string;
+    courseId: string;
+    grade?: string;
 }
 
-// отзыв сертификата
-export async function revokeCertificate(id: string): Promise<Certificate> {
-    return api.put<Certificate>(`/certificates/${id}`, { status: 'REVOKED' });
+export async function issueCertificate(
+    payload: IssueCertificatePayload,
+): Promise<Certificate> {
+    const res = await api.post<Certificate>('/certificates/issue', payload);
+    if (!res) {
+        throw new Error('Failed to issue certificate');
+    }
+    return res;
 }

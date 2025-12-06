@@ -1,4 +1,3 @@
-// src/pages/CourseForm.tsx
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createCourse, updateCourse, fetchCourseById } from '../services/courseService';
@@ -77,8 +76,7 @@ const CourseForm = () => {
             .catch((err: unknown) => {
                 console.error('Ошибка запроса:', err);
             });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isEditMode, id]);
+    }, [isEditMode, id, navigate]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,

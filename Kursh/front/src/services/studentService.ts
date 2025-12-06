@@ -1,29 +1,39 @@
-// src/services/studentService.ts
 import { api } from './api';
 import type { Student } from '../types';
 
 export async function fetchStudents(): Promise<Student[]> {
-    return api.get<Student[]>('/students');
+    const res = await api.get<Student[]>('/students');
+    return res ?? [];
 }
 
-export async function fetchStudent(id: string): Promise<Student> {
-    return api.get<Student>(`/students/${id}`);
+export async function fetchStudentById(id: string): Promise<Student> {
+    const res = await api.get<Student>(`/students/${id}`);
+    if (!res) {
+        throw new Error('Student not found');
+    }
+    return res;
 }
 
-// alias под старое имя
-export const fetchStudentById = fetchStudent;
-
-export async function createStudent(
-    fullName: string,
-    email: string,
-): Promise<Student> {
-    return api.post<Student>('/students', { fullName, email });
-}
+export type UpdateStudentPayload = {
+    fullName: string;
+    email: string;
+    age: number;
+    performance: Student['performance'];
+    photoUrl: string;
+    city: string;
+    phone: string;
+    format: Student['format'];
+    progress: number;
+    courseId?: string | null;
+};
 
 export async function updateStudent(
     id: string,
-    fullName: string,
-    email: string,
+    payload: UpdateStudentPayload,
 ): Promise<Student> {
-    return api.put<Student>(`/students/${id}`, { fullName, email });
+    const res = await api.put<Student>(`/students/${id}`, payload);
+    if (!res) {
+        throw new Error('Failed to update student');
+    }
+    return res;
 }

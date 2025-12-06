@@ -5,7 +5,7 @@ export interface Course {
     title: string;
     description: string;
     full_description: string;
-    duration: any;
+    duration: number;
     price: number;
     level: CourseLevel;
     photoUrl: string;

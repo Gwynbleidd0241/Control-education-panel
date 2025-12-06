@@ -1,4 +1,3 @@
-// src/pages/Courses.tsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchCourses, deleteCourse } from '../services/courseService';
@@ -46,13 +45,15 @@ const Courses: React.FC = () => {
             <div className="page-header">
                 <h1>Курсы</h1>
 
-                <Link to="/" className="btn secondary">
-                    ← В дашборд
-                </Link>
+                <div className="actions-group">
+                    <Link to="/" className="btn secondary">
+                        ← В дашборд
+                    </Link>
 
-                <Link to="/courses/new" className="btn primary">
-                    + Новый курс
-                </Link>
+                    <Link to="/courses/new" className="btn primary">
+                        + Новый курс
+                    </Link>
+                </div>
             </div>
 
             {error && (

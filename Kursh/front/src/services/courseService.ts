@@ -1,27 +1,36 @@
-// src/services/courseService.ts
 import { api } from './api';
 import type { Course, CoursePayload } from '../types';
 
 export async function fetchCourses(): Promise<Course[]> {
-    return api.get<Course[]>('/courses');
+    const res = await api.get<Course[]>('/courses');
+    return res ?? [];
 }
 
-export async function fetchCourse(id: string): Promise<Course> {
-    return api.get<Course>(`/courses/${id}`);
+export async function fetchCourseById(id: string): Promise<Course> {
+    const res = await api.get<Course>(`/courses/${id}`);
+    if (!res) {
+        throw new Error('Course not found');
+    }
+    return res;
 }
-
-// alias под старое имя, которое уже используется в компонентах
-export const fetchCourseById = fetchCourse;
 
 export async function createCourse(payload: CoursePayload): Promise<Course> {
-    return api.post<Course>('/courses', payload);
+    const res = await api.post<Course>('/courses', payload);
+    if (!res) {
+        throw new Error('Failed to create course');
+    }
+    return res;
 }
 
 export async function updateCourse(
     id: string,
     payload: Partial<CoursePayload>,
 ): Promise<Course> {
-    return api.put<Course>(`/courses/${id}`, payload);
+    const res = await api.put<Course>(`/courses/${id}`, payload);
+    if (!res) {
+        throw new Error('Failed to update course');
+    }
+    return res;
 }
 
 export async function deleteCourse(id: string): Promise<void> {
